@@ -32,4 +32,10 @@ RSpec.describe MailAllowlist do
     expect { mail_allowlist.delivering_email(email) }
       .to change { email.to }.to(['terry@example.com'])
   end
+
+  it 'will accept 1 to address as a string' do
+    email = OpenStruct.new(to: '<Grahham> graham@example.com')
+    expect { mail_allowlist.delivering_email(email) }
+      .to change { email.to }.to(['terry@example.com'])
+  end
 end

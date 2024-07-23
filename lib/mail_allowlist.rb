@@ -13,7 +13,8 @@ class MailAllowlist
   end
 
   def delivering_email(mail)
-    mail.to = mail.to.select { |recipient| allowlisted?(recipient) }
+    mail_to = mail.to.respond_to?(:select) ? mail.to : [mail.to]
+    mail.to = mail_to.select { |recipient| allowlisted?(recipient) }
     mail.to = [fallback] unless mail.to.any?
   end
 
