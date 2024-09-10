@@ -8,8 +8,8 @@ class MailAllowlist
   # @param [Array<String>, #include?] allowlist
   # @param [String] fallback
   def initialize(allowlist, fallback = nil)
-    @allowlist = allowlist
-    @fallback = fallback
+    @allowlist = allowlist.map { |address| address.downcase }
+    @fallback = fallback&.downcase
   end
 
   def delivering_email(mail)
@@ -21,6 +21,7 @@ class MailAllowlist
   private
 
   def allowlisted?(recipient)
+    recipient = recipient.downcase
     allowlist.any? do |allowlisted_address|
       if allowlisted_address.start_with?('@')
         recipient.end_with?(allowlisted_address)

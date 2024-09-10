@@ -38,4 +38,11 @@ RSpec.describe MailAllowlist do
     expect { mail_allowlist.delivering_email(email) }
       .to change { email.to }.to(['terry@example.com'])
   end
+
+  it 'is case insensitive' do
+    email = OpenStruct.new(to: 'John@Example.com')
+
+    expect { mail_allowlist.delivering_email(email) }
+    .to change { email.to }.to(['John@Example.com'])
+  end
 end
